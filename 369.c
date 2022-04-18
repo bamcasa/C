@@ -28,9 +28,30 @@ int *slice_num(int num)
     return num_array; //배열 반환
 }
 
-int count_3_from_array()
+int count_X_from_array(int arr[], int num_digits, char X)
 {
-    return 0;
+    int count = 0;
+    if (X == 'n')
+    {
+        for (int i = 0; i < num_digits; i++)
+        {
+            if (arr[i] == 3 || arr[i] == 6 || arr[i] == 9)
+            {
+                count++;
+            }
+        }
+    }
+    else
+    {
+        for (int i = 0; i < num_digits; i++)
+        {
+            if (arr[i] ==)
+            {
+                count++;
+            }
+        }
+    }
+    return count;
 }
 
 int main()
@@ -38,25 +59,42 @@ int main()
     int order = 1;
     int input_n;
     int i;
-    scanf("%d", &input_n);
     int num_digits = count_num_digits(input_n);
-    int *f_output = slice_num(input_n);
-    printf("%d\n", num_digits);
-    for (i = 0; i < num_digits; i++)
-    {
-        printf("%d", f_output[i]);
-    }
+    int *sliced_input = slice_num(input_n);
+    int *sliced_order = slice_num(order);
 
     while (1)
     {
         scanf("%d", &input_n);
-        if (order == input_n) //순서와 입력값이 같은가
+        num_digits = count_num_digits(input_n);
+        sliced_input = slice_num(input_n);
+        sliced_order = slice_num(order);
+
+        if (input_n == 0)
+            break;
+
+        if (count_X_from_array(sliced_order, num_digits, 'n') != 0) //순서에 3,6,9 존재한다면
         {
-            printf("PASS");
+            if (count_X_from_array(sliced_order, num_digits, 'n') == count_X_from_array(sliced_order, num_digits, 'X')) //입력값의 X의 개수와 순서의 3,6,9의 개수가 같다면
+            {
+                printf("PASS\n");
+                order++;
+            }
+            else
+                break; //다르면 끝냄
+        }
+        else if (order == input_n) //순서와 입력값이 같은가
+        {
+            printf("PASS\n");
             order++; //다음순서
         }
+        else
+        {
+            printf("XXXXXXXXXXXXXXXXXXXXXXXX");
+            break;
+        }
+        free(sliced_input);
+        free(sliced_order);
     }
-    free(f_output);
-
     return 0;
 }
